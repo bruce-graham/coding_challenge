@@ -1,0 +1,25 @@
+{
+  "name": "coding_challenge",
+  "version": "1.0.0",
+  "description": "Massdrop Coding Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bruce-graham/coding_challenge.git"
+  },
+  "author": "Bruce Graham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bruce-graham/coding_challenge/issues"
+  },
+  "homepage": "https://github.com/bruce-graham/coding_challenge#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "node": "0.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
