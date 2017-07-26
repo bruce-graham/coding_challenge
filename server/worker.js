@@ -1,47 +1,33 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-var http = require('http');
-var util = require('util');
+var axios = require('axios');
 
-var options = {
-  host: '',
-  port: 80,
-  path: '/index.html'
-};
 
 setInterval(function() {
-  request('http://127.0.0.1:8888/worker', function (error, response, body) {
+  request('http://127.0.0.1:8888/api/worker', function (error, response, body) {
+
     if (error) {
-      console.log('line 14 worker.js error', error);
+      console.log('line 11 worker.js error', error);
     } else {
       if (body !== 'Nothing to dequeue') {
-        options.host = body;
+        var url = 'http://';
+        url = url + body
 
-        var content = '';
-
-        var request = http.request(options, function(response) {
-            response.setEncoding("utf8");
-            response.on('data', function (chunk) {
-              content += chunk;
-            });
-
-            response.on('end', function () {
-              util.log('this is content :', content);
-            });
-
-            response.on('error', function (error) {
-              console.log(error);
-            });
-        });
-
-        request.end();
+        axios.get(url)
+          .then(function(response) {
+            console.log('response.data => ', response.data);
+          })
+          .catch(function(error) {
+            console.log('error on worker.js line 24', error);
+          });
       } else {
         console.log("Worker checked queue and nothing was there");
       }
     }
   });
 }, 5000);
+
 
 app.listen('8000', function() {
   console.log("Listening on port 8000");
