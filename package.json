@@ -16,10 +16,11 @@
   },
   "homepage": "https://github.com/bruce-graham/coding_challenge#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.3",
-    "http": "0.0.0",
+    "mysql": "^2.14.0",
     "node": "0.0.0",
     "request": "^2.81.0",
-    "util": "^0.10.3"
+    "sequelize": "^4.4.2"
   }
 }
