@@ -29,14 +29,18 @@ Queue.prototype.size = function() {
 
 var queue = new Queue();
 
-app.get('/sites/:url', function(req, res) {
+app.get('/api/sites/:url', function(req, res) {
   var url = req.params.url;
   queue.enqueue(url);
   //eventually need to send back a uniqueId
   res.send(queue);
 });
 
-app.get('/worker', function(req, res) {
+app.get('/api/jobs:id', function(req, res) {
+
+});
+
+app.get('/api/worker', function(req, res) {
   var value = queue.dequeue();
   console.log('FETCHED VALUE FROM WORKER =>', value);
   res.send(value);
