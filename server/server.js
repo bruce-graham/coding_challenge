@@ -32,8 +32,9 @@ var queue = new Queue();
 app.get('/api/sites/:url', function(req, res) {
   var url = req.params.url;
   queue.enqueue(url);
-  //eventually need to send back a uniqueId
-  res.send(queue);
+  var uniqueId = queue.totalInQueue.toString();
+  res.send(uniqueId);
+  console.log('This is the current queue :', queue.storage);
 });
 
 app.get('/api/jobs:id', function(req, res) {
@@ -49,3 +50,5 @@ app.get('/api/worker', function(req, res) {
 app.listen(8888, function () {
   console.log("Listening on port 8888");
 });
+
+module.exports = queue;
