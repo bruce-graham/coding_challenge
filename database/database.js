@@ -19,7 +19,7 @@ sequelize.authenticate()
     console.error('Unable to connect to the database: ', err);
   });
 
-var Site = sequelize.define('Site', {
+var Site = sequelize.define('sites', {
   uniqueId: {
     type: Sequelize.STRING
   },
