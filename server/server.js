@@ -73,7 +73,7 @@ app.get('/api/jobs/:id', function(req, res) {
         res.send(output);
       } else {
         output.url = data.url;
-        output.html = data.html;
+        output.html = decodeURIComponent(data.html);
         res.send(output);
       }
     })
