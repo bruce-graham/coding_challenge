@@ -20,9 +20,6 @@ sequelize.authenticate()
   });
 
 var Site = sequelize.define('sites', {
-  uniqueId: {
-    type: Sequelize.STRING
-  },
   url: {
     type: Sequelize.STRING
   },
