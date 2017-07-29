@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-var sequelize = new Sequelize('massdrop', 'root', 'javascript', {
+var sequelize = new Sequelize('massdrop', 'root', 'INSERT_DB_PASSWORD_HERE', {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306,
