@@ -20,6 +20,6 @@
 
 ## API Routes/Endpoints
 -User sends a get request to endpoint /api/sites/:url and gets back a job ID (example => http://127.0.0.1:8888/api/sites/www.hotmail.com/).
--User submits job ID to endpoint /api/jobs/:id and gets a response that includes the HTML (example => http://127.0.0.1:8888/api/jobs/9).
+-User sends a get request to endpoint /api/jobs/:id and gets a response that includes the HTML (example => http://127.0.0.1:8888/api/jobs/9).
 
 
