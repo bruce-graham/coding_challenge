@@ -20,7 +20,7 @@ setInterval(function() {
               .then(function() {
                 var url = jsonData.url;
                 var uniqueId = jsonData.uniqueId;
-                var html = response.data;
+                var html = encodeURIComponent(response.data);
 
                 return Site.update({
                     html: html
