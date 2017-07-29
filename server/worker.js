@@ -8,38 +8,37 @@ var Site = require('../database/database.js');
 setInterval(function() {
   request('http://127.0.0.1:8888/api/worker', function (error, response, body) {
     if (error) {
-      console.log('line 11 worker.js error', error);
+      console.log('line 11 in worker.js error', error);
     } else {
       if (body !== 'Nothing to dequeue') {
-        var bodyObj = JSON.parse(body);
-        var website = 'http://';
-        website += bodyObj.url;
+        var jsonData = JSON.parse(body);
+        var website = 'http://' + jsonData.url;
 
         axios.get(website)
           .then(function(response) {
-            Site.sync({force: true}).then(function() {
-              var uniqueId = bodyObj.uniqueId;
-              var url = bodyObj.url
-              var html = response.data;
+            return Site.sync()
+              .then(function() {
+                var url = jsonData.url;
+                var uniqueId = jsonData.uniqueId;
+                var html = response.data;
 
-              console.log('site.create =>', uniqueId, url, html);
-
-              return Site.create({
-                uniqueId: uniqueId,
-                url: url,
-                html: html
+                return Site.update({
+                    html: html
+                  }, {
+                    where: {
+                      id: uniqueId
+                    }
+                  });
               });
-            });
           })
           .catch(function(error) {
-            console.log('error on worker.js ', error);
+            console.log('Line 35 error in worker.js ', error);
+
           });
-      } else {
-        console.log("Worker checked queue and nothing was there");
       }
     }
   });
-}, 5000);
+}, 2000);
 
 
 app.listen('8000', function() {
