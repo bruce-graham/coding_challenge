@@ -3,6 +3,7 @@ var app = express();
 var request = require('request');
 var axios = require('axios');
 var Site = require('../database/database.js');
+var queue = require('../server/queue.js');
 
 
 setInterval(function() {
@@ -32,13 +33,12 @@ setInterval(function() {
               });
           })
           .catch(function(error) {
-            console.log('Line 35 error in worker.js ', error);
-
+            console.log('.catch() error in worker.js ', error);
           });
       }
     }
   });
-}, 2000);
+}, 10000);
 
 
 app.listen('8000', function() {
