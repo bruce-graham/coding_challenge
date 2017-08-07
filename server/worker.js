@@ -1,44 +1,33 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-var axios = require('axios');
-var Site = require('../database/database.js');
-var queue = require('../server/queue.js');
+var helpers = require ('../server/helpers.js');
 
 
-setInterval(function() {
-  request('http://127.0.0.1:8888/api/worker', function (error, response, body) {
+var runWorker = function() {
+  request('http://127.0.0.1:8888/api/worker', function (error, res, body) {
     if (error) {
-      console.log('line 11 in worker.js error', error);
+      console.log('helper.js error');
     } else {
       if (body !== 'Nothing to dequeue') {
-        var jsonData = JSON.parse(body);
-        var website = 'http://' + jsonData.url;
+        var sites = JSON.parse(body);
 
-        axios.get(website)
-          .then(function(response) {
-            return Site.sync()
-              .then(function() {
-                var url = jsonData.url;
-                var uniqueId = jsonData.uniqueId;
-                var html = encodeURIComponent(response.data);
+        sites.forEach(function (site) {
+          var url = 'http://' + site.url;
+          var uniqueId = site.uniqueId;
 
-                return Site.update({
-                    html: html
-                  }, {
-                    where: {
-                      id: uniqueId
-                    }
-                  });
-              });
-          })
-          .catch(function(error) {
-            console.log('.catch() error in worker.js ', error);
+          helpers.getWebsiteHtml(url, uniqueId, function (data) {
+            if (!data) {
+              console.log('error in setInterval');
+            }
           });
+        });
       }
     }
   });
-}, 10000);
+};
+
+setInterval(runWorker, 5000);
 
 
 app.listen('8000', function() {
