@@ -1,40 +1,41 @@
-var Queue = function() {
-  this.storage = {};
-  this.currentNumber = 0;
-  this.totalInQueue = 0;
-  this.tempId = 0;
+var Queue = function () {
+  var instance = {};
+
+  instance.storage = {};
+  instance.totalInQueue = 0;
+  instance.currentNumber = 0;
+  instance.uniqueId = 0;
+
+  instance.enqueue = function(value) {
+    instance.currentNumber++;
+    instance.totalInQueue++;
+    instance.storage[instance.currentNumber] = {value: value, id: instance.uniqueId};
+  };
+
+  instance.dequeueAll = function() {
+    var websites = [];
+
+    if (instance.size() > 0) {
+      while (instance.size() > 0) {
+        var site = {};
+        instance.totalInQueue--;
+        var temp = instance.storage[instance.currentNumber - instance.totalInQueue];
+        delete instance.storage[instance.currentNumber - instance.totalInQueue];
+        site.uniqueId = temp.id;
+        site.url = temp.value;
+        websites.push(site);
+      }
+      return websites;
+    } else {
+      return 'Nothing to dequeue';
+    }
+  };
+
+  instance.size = function() {
+    return instance.totalInQueue;
+  };
+
+  return instance;
 };
 
-Queue.prototype.enqueue = function(value) {
-  this.currentNumber++;
-  this.totalInQueue = this.totalInQueue + 1;
-  this.storage[this.currentNumber] = {value: value, id: this.tempId};
-};
-
-Queue.prototype.dequeue = function() {
-  var output = {};
-
-  if (this.totalInQueue > 0) {
-    this.totalInQueue--;
-    var temp = this.storage[this.currentNumber - this.totalInQueue]['value'];
-    delete this.storage[this.currentNumber - this.totalInQueue];
-    output.uniqueId = this.tempId;
-    output.url = temp;
-    return output;
-  }
-
-  return 'Nothing to dequeue';
-};
-
-Queue.prototype.size = function() {
-  return this.totalInQueue;
-};
-
-console.log('if statement in queue.js about module.exports =>', module.exports.queue);
-
-if (module.exports.queue === undefined) {
-  var queue = new Queue();
-}
-
-
-module.exports = queue;
+exports.queue = Queue();
