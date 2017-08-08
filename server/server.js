@@ -6,11 +6,17 @@ var helpers = require ('../server/helpers.js');
 app.get('/api/sites/:url', function(req, res) {
   var url = req.params.url;
 
-  helpers.createDatabaseEntry(url, function(created) {
-    if (created) {
-      res.send(created);
+  helpers.isUrl(url, function (result) {
+    if (result) {
+      helpers.createDatabaseEntry(url, function(created) {
+        if (created) {
+          res.send(created);
+        } else {
+          res.send('URL not added to database');
+        }
+      });
     } else {
-      res.send('url not added to database');
+      res.send('Not a valid URL, please submit another.');
     }
   });
 });

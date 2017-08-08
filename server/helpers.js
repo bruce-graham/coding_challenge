@@ -33,7 +33,7 @@ exports.updateDatabase = function(response, callback) {
           html: html
         }, {
           where: {
-            id: uniqueId
+            id: queue.queue.uniqueId
           }
         });
     })
@@ -83,4 +83,34 @@ exports.findOneInDatabase = function (uniqueId, callback) {
     .catch(function(error) {
       callback('Not a valid ID, please submit another ID.');
     });
+};
+
+exports.isUrl = function (str, callback) {
+  var urlStr = str;
+  var wwwTest = urlStr.substring(0, 5);
+  var httpsTest = urlStr.substring(0, 7);
+  var httpTest = urlStr.substring(0, 6);
+
+  console.log('before ifs', urlStr);
+
+  if (wwwTest !== 'www.') {
+    if (httpsTest !== 'https://') {
+      if (httpTest !== 'http://') {
+        urlStr = 'www.' + str;
+      }
+    }
+  }
+
+  console.log('after ifs', urlStr);
+
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+  console.log('regex in helper.js => ', pattern.test(urlStr))
+
+  return pattern.test(urlStr);
 };
